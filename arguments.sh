@@ -5,10 +5,11 @@ echo "参数："$@
 function usage {
     echo ""
     echo "选项："
-    echo "  -D, --db                     数据库名：[medical, medical_gaomi, tem_check, .......]"
+    echo "  -D, --db                     数据库名：[medical, medical_gaomi, tmp_check, .......]"
     echo "  -d, --dttype                 时间类型：[day, week, month, year]"
     echo "  -s, --startdate              开始日期：例如 2019-01-01"
     echo "  -e, --enddate                结束日期：例如 2019-01-02"
+    echo "  -i, --init                   是否初始化：1为是，默认为0"
     echo "  -h, --help                   这个简短的用法指南"
     echo "  -l, --longoptions <长选项>   # 要识别的长选项"
     echo "  -n, --name <程序名>          # 将错误报告给的程序名"
@@ -23,7 +24,7 @@ function usage {
 #-l或--long选项后面是可接受的长选项，用逗号分开，冒号的意义同短选项。
 #-n选项后接选项解析错误时提示的脚本名字
 
-ARGS=`getopt -o D:d:s:e: --long db:,dttype:,startdate:,enddate: -n "$0" -- "$@"`
+ARGS=`getopt -o D:d:s:e:i --long db:,dttype:,startdate:,enddate:,init -n "$0" -- "$@"`
 if [ $? != 0 ]; then
     usage
     exit 1
@@ -39,6 +40,7 @@ db=""
 dtType=""
 startDate=""
 endDate=""
+init="0"
 
 
 while true
@@ -59,6 +61,10 @@ do
         -e|--enddate)
             endData=$2
             shift 2
+            ;;
+        -i|--init)
+            init="1"
+            shift
             ;;
         -q|--quit)
             case "$2" in
@@ -98,3 +104,4 @@ echo "  db=$db"
 echo "  dtType=$dtType"
 echo "  startDate=$startDate"
 echo "  endDate=$endDate"
+echo "  init=$init"
